@@ -10,10 +10,10 @@ namespace BitmapAsciiApi.Controllers
     public class BitmapController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GenerateAscii([FromQuery] string text = "", [FromQuery] int height = 24)
+        public IActionResult GenerateAscii([FromQuery] string text = "", [FromQuery] int height = 24,  [FromQuery] String weight = "Regular", [FromQuery] String family = "Arial")
         {
             // Create font
-            var font = new Font("Pixel Operator", height, FontStyle.Regular, GraphicsUnit.Pixel); // Replace with Pixel Operator if installed
+            var font = new Font(family, height, weight == "Regular" ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel); // Replace with Pixel Operator if installed
 
             // Measure text size
             using var tempBmp = new Bitmap(1, 1);
