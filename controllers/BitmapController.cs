@@ -10,7 +10,7 @@ namespace BitmapAsciiApi.Controllers
     public class BitmapController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GenerateAscii([FromQuery] string text = "", [FromQuery] int height = 24,  [FromQuery] String weight = "Regular", [FromQuery] String family = "Arial")
+        public IActionResult GenerateAscii([FromQuery] string text = "", [FromQuery] int height = 24, [FromQuery] String weight = "Regular", [FromQuery] String family = "Arial")
         {
             // Create font
             var font = new Font(family, height, weight == "Regular" ? FontStyle.Regular : FontStyle.Bold, GraphicsUnit.Pixel); // Replace with Pixel Operator if installed
@@ -20,13 +20,15 @@ namespace BitmapAsciiApi.Controllers
             using var gTemp = Graphics.FromImage(tempBmp);
             var size = gTemp.MeasureString(text, font);
             int width = (int)Math.Ceiling(size.Width);
+            int renderHeight = height + 20; // Add padding for descenders
 
             // Render to bitmap
-            using var bmp = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            using var bmp = new Bitmap(width, renderHeight, PixelFormat.Format24bppRgb);
             using var g = Graphics.FromImage(bmp);
             g.Clear(Color.Black);
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
-            g.DrawString(text, font, Brushes.White, new PointF(0, 0));
+            g.DrawString(text, font, Brushes.White, new PointF(0, 2)); // Slight vertical offset
+
 
             // Crop
             var cropRect = GetContentBounds(bmp);
