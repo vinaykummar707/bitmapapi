@@ -48,7 +48,7 @@ namespace BitmapAsciiApi.Controllers
                     int brightness = (pixel.R + pixel.G + pixel.B) / 3;
                     sb.Append(brightness > 128 ? "#" : ".");
                 }
-                sb.AppendLine();
+                sb.Append("\n");
             }
 
             return Ok(sb.ToString());
