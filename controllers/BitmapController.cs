@@ -36,7 +36,7 @@ namespace BitmapAsciiApi.Controllers
                 return BadRequest("No content found.");
 
             using var cropped = bmp.Clone(cropRect, bmp.PixelFormat);
-            cropped.Save("cropped.bmp", ImageFormat.Bmp); // For debugging, can be removed
+            // cropped.Save("cropped.bmp", ImageFormat.Bmp); // For debugging, can be removed
 
             // Convert to ASCII
             var sb = new StringBuilder();
