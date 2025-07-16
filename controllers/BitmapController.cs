@@ -27,13 +27,14 @@ namespace BitmapAsciiApi.Controllers
             using var gTemp = Graphics.FromImage(tempBmp);
             var size = gTemp.MeasureString(text, font);
             int width = (int)Math.Ceiling(size.Width);
+            int renderHeight = height + 20;
 
             // Render to bitmap
-            using var bmp = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            using var bmp = new Bitmap(width, renderHeight, PixelFormat.Format24bppRgb);
             using var g = Graphics.FromImage(bmp);
             g.Clear(Color.Black);
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
-            g.DrawString(text, font, Brushes.White, new PointF(0, 0));
+            g.DrawString(text, font, Brushes.White, new PointF(0, 2));
 
             // Crop content
             var cropRect = GetContentBounds(bmp);
@@ -76,10 +77,10 @@ namespace BitmapAsciiApi.Controllers
                     int brightness = (pixel.R + pixel.G + pixel.B) / 3;
                     sb.Append(brightness > 128 ? "#" : ".");
                 }
-                   if (y < cropped.Height - 1) // ⬅️ Don't add \n on the last line
+                if (y < finalBmp.Height - 1) // ⬅️ Don't add \n on the last line
                     sb.Append('\n');
             }
-            
+
 
             return Ok(sb.ToString());
         }
