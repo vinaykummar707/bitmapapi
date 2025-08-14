@@ -11,6 +11,14 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5288, listenOptions =>
+    {
+        listenOptions.UseHttps("C:\certs\bitmap.pfx", "test123");
+    });
+});
+
 builder.Services.AddControllers();
 var app = builder.Build();
 
